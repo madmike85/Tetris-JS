@@ -1,5 +1,6 @@
 const canvas = document.querySelector('#tetris');
 const context = canvas.getContext('2d');
+const startBtn = document.querySelector('.start');
 
 context.scale(20, 20);
 
@@ -8,12 +9,16 @@ const arena = createMatrix(12, 20);
 const player = {
   pos: { x: 0, y: 0 },
   matrix: null,
-  score: 0
+  score: 0,
+  scoreToSpeedUp: 0
 };
+
+const speedUpScore = 20;
 
 let dropCounter = 0;
 let dropInterval = 1000;
 let lastTime = 0;
+let isPlaying = false;
 
 function collide(arena, player) {
   const [m, o] = [player.matrix, player.pos];
@@ -41,6 +46,13 @@ function arenaSweep() {
     y++;
 
     player.score += rowCount * 10;
+    player.scoreToSpeedUp += rowCount * 10;
+
+    if (player.scoreToSpeedUp >= speedUpScore) {
+      dropInterval -= 100;
+      player.scoreToSpeedUp = 0;
+    }
+
     rowCount *= 2;
   }
 }
@@ -126,7 +138,11 @@ function playerReset() {
   if (collide(arena, player)) {
     arena.forEach(row => row.fill(0));
     player.score = 0;
+    player.scoreToSpeedUp = 0;
     updateScore();
+    dropInterval = 1000;
+    isPlaying = false;
+    startBtn.classList.remove('hide');
   }
 }
 
@@ -159,35 +175,30 @@ function rotate(matrix, dir) {
   }
 }
 
-// let dropCounter = 0;
-// let dropInterval = 1000;
-
-// let lastTime = 0;
-
 function update(time = 0) {
-  const deltaTime = time - lastTime;
-  lastTime = time;
-  dropCounter += deltaTime;
-  if (dropCounter > dropInterval) {
-    playerDrop();
+  if (isPlaying) {
+    const deltaTime = time - lastTime;
+    lastTime = time;
+    dropCounter += deltaTime;
+    if (dropCounter > dropInterval) {
+      playerDrop();
+    }
+    draw();
+    requestAnimationFrame(update);
   }
-  draw();
-  requestAnimationFrame(update);
+}
+
+function startGame() {
+  isPlaying = true;
+  startBtn.classList.add('hide');
+  playerReset();
+  updateScore();
+  update();
 }
 
 function updateScore() {
   document.querySelector('#score').innerText = player.score;
 }
-
-// const colors = [null, '#FF0D72', '#0DC2FF', '#0DFF72', '#F538FF', '#FF8E0D', '#FFE138', '#3877FF'];
-
-// const arena = createMatrix(12, 20);
-
-// const player = {
-//   pos: { x: 0, y: 0 },
-//   matrix: null,
-//   score: 0
-// };
 
 document.addEventListener('keydown', event => {
   if (event.keyCode === 37) {
@@ -203,6 +214,4 @@ document.addEventListener('keydown', event => {
   }
 });
 
-playerReset();
-updateScore();
-update();
+startBtn.addEventListener('click', startGame);
