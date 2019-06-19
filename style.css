@@ -13,10 +13,16 @@ canvas {
 
 .start {
   position: absolute;
-  top: 48%;
+  top: 43%;
   left: 43%;
   height: 5vh;
   width: 15vw;
+  background: deepskyblue;
+  outline: none;
+  border: 2px solid yellow;
+  color: yellow;
+  border-radius: 30px;
+  font-size: 22px;
 }
 
 .hide {
