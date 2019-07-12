@@ -6,6 +6,36 @@ body {
   text-align: center;
 }
 
+.container {
+  display: flex;
+}
+
+.buttons-container,
+.game-info-container {
+  width: 29%;
+}
+
+.game-info-container {
+  text-align: left;
+  padding-top: 20%;
+}
+
+.moves {
+  display: grid;
+  grid-template-columns: 50px 50px 50px;
+  grid-template-rows: 50px;
+  justify-content: space-evenly;
+  margin-top: 63%;
+  margin-bottom: 20%;
+}
+
+.rotations {
+  display: grid;
+  grid-template-columns: 50px 50px;
+  grid-template-rows: 50px;
+  justify-content: space-evenly;
+}
+
 canvas {
   border: solid 0.2em #fff;
   height: 90vh;
@@ -27,4 +57,36 @@ canvas {
 
 .hide {
   display: none;
+}
+
+.btn {
+  height: 50px;
+  width: 50px;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.btn-left {
+  background-image: url(./left.png);
+}
+
+.btn-right {
+  background-image: url(./right.png);
+}
+
+.btn-down {
+  background-image: url(./down.png);
+}
+
+.btn-clockwise {
+  background-image: url(./rotate-right.png);
+}
+
+.btn-counter-clockwise {
+  background-image: url(./rotate-leftt.png);
+}
+
+.game-info {
+  margin-left: 10%;
+  margin-bottom: 5%;
 }

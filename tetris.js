@@ -1,6 +1,14 @@
 const canvas = document.querySelector('#tetris');
 const context = canvas.getContext('2d');
 const startBtn = document.querySelector('.start');
+const leftBtn = document.querySelector('.btn-left');
+const rightBtn = document.querySelector('.btn-right');
+const downBtn = document.querySelector('.btn-down');
+const rotateLeftBtn = document.querySelector('.btn-counter-clockwise');
+const rotateRightBtn = document.querySelector('.btn-clockwise');
+const gameScore = document.querySelector('.game-score');
+const gameLevel = document.querySelector('.game-level');
+const lines = document.querySelector('.total-lines');
 
 context.scale(20, 20);
 
@@ -10,10 +18,12 @@ const player = {
   pos: { x: 0, y: 0 },
   matrix: null,
   score: 0,
-  scoreToSpeedUp: 0
+  scoreToSpeedUp: 0,
+  lines: 0,
+  level: 1
 };
 
-const speedUpScore = 20;
+const speedUpScore = 1000;
 
 let dropCounter = 0;
 let dropInterval = 1000;
@@ -47,10 +57,12 @@ function arenaSweep() {
 
     player.score += rowCount * 10;
     player.scoreToSpeedUp += rowCount * 10;
+    player.lines++;
 
     if (player.scoreToSpeedUp >= speedUpScore) {
-      dropInterval -= 100;
+      dropInterval -= 200;
       player.scoreToSpeedUp = 0;
+      player.level++;
     }
 
     rowCount *= 2;
@@ -139,6 +151,8 @@ function playerReset() {
     arena.forEach(row => row.fill(0));
     player.score = 0;
     player.scoreToSpeedUp = 0;
+    player.level = 1;
+    player.lines = 0;
     updateScore();
     dropInterval = 1000;
     isPlaying = false;
@@ -197,7 +211,9 @@ function startGame() {
 }
 
 function updateScore() {
-  document.querySelector('#score').innerText = player.score;
+  gameScore.innerText = `Score: ${player.score}`;
+  gameLevel.innerText = `Level: ${player.level}`;
+  lines.innerText = `Lines: ${player.lines}`;
 }
 
 document.addEventListener('keydown', event => {
@@ -210,6 +226,36 @@ document.addEventListener('keydown', event => {
   } else if (event.keyCode === 81) {
     playerRotate(-1);
   } else if (event.keyCode === 87) {
+    playerRotate(1);
+  }
+});
+
+leftBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    playerMove(-1);
+  }
+});
+
+rightBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    playerMove(1);
+  }
+});
+
+downBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    playerDrop();
+  }
+});
+
+rotateLeftBtn.addEventListener('click', () => {
+  if (isPlaying) {
+    playerRotate(-1);
+  }
+});
+
+rotateRightBtn.addEventListener('click', () => {
+  if (isPlaying) {
     playerRotate(1);
   }
 });

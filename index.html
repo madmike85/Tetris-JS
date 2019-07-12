@@ -8,9 +8,26 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="score"></div>
-    <button type="button" class="start">Start Game</button>
-    <canvas id="tetris" width="240" height="400"></canvas>
+    <div class="container">
+      <div class="buttons-container">
+        <div class="moves">
+          <div class="btn btn-left"></div>
+          <div class="btn btn-down"></div>
+          <div class="btn btn-right"></div>
+        </div>
+        <div class="rotations">
+          <div class="btn btn-clockwise"></div>
+          <div class="btn btn-counter-clockwise"></div>
+        </div>
+      </div>
+      <button type="button" class="start">Start Game</button>
+      <canvas id="tetris" width="240" height="400"></canvas>
+      <div class="game-info-container">
+        <div class="game-info game-level">Level: 00</div>
+        <div class="game-info game-score">Score: 00000</div>
+        <div class="game-info total-lines">Lines: 00000</div>
+      </div>
+    </div>
     <script src="tetris.js"></script>
   </body>
 </html>
