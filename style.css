@@ -20,6 +20,10 @@ body {
   padding-top: 20%;
 }
 
+.game-container {
+  position: relative;
+}
+
 .moves {
   display: grid;
   grid-template-columns: 50px 50px 50px;
@@ -44,9 +48,9 @@ canvas {
 .start {
   position: absolute;
   top: 43%;
-  left: 43%;
+  left: 32%;
   height: 5vh;
-  width: 15vw;
+  width: 200px;
   background: deepskyblue;
   outline: none;
   border: 2px solid yellow;
